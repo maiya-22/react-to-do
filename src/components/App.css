@@ -23,6 +23,25 @@
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.App-todoitem-text {
+  display: inline-block;
+}
+
+.App-todoitem-btn {
+  color: lightslategray;
+  margin-left: 1em;
+  border: none;
+  background: none;
+}
+
+.App-todoitem-btn:hover {
+  background-color: lightcoral;
 }
