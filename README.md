@@ -1,5 +1,3 @@
-To-do list made in React.js.
-
 Implemented a stateful App component, passing props to stateless Task component.
 
 Tasks can be created, toggled as completed, and deleted.
