@@ -1,59 +1,86 @@
+/* eslint react/jsx-filename-extension: 0 */
 import React, { Component } from 'react';
 import uuidv1 from 'uuid/v1';
 
 import './App.css';
 import Header from './Header';
-import ToDoItem from './ToDoItem';
-/* eslint react/jsx-filename-extension: 0 */
+import Task from './Task';
 
-class App extends Component {
+export default class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      newToDoItem: '',
-      toDoList: [],
+      newTask: '',
+      taskList: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.delete = this.delete.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
+    this.toggleTask = this.toggleTask.bind(this);
   }
 
   handleChange(e) {
-    this.setState({ newToDoItem: e.target.value });
+    this.setState({ newTask: e.target.value });
   }
 
   handleSubmit(e) {
-    this.setState({
-      newToDoItem: '',
-      toDoList: [...this.state.toDoList, this.state.newToDoItem],
-    });
     e.preventDefault();
+    const { newTask } = this.state;
+
+    if (newTask) {
+      this.setState({
+        newTask: '',
+        taskList: [
+          ...this.state.taskList,
+          {
+            task: newTask,
+            id: uuidv1(),
+            completed: false,
+          },
+        ],
+      });
+    }
   }
 
-  delete() {
-    console.log(this);
+  deleteTask(id) {
+    const index = this.state.taskList.findIndex(obj => obj.id === id);
+    this.setState({
+      taskList: [...this.state.taskList.slice(0, index), ...this.state.taskList.slice(index + 1)],
+    });
+  }
+
+  toggleTask(id) {
+    const index = this.state.taskList.findIndex(obj => obj.id === id);
+    const { taskList } = this.state;
+    taskList[index].completed = !taskList[index].completed;
+    this.setState({ taskList });
   }
 
   render() {
     return (
       <div className="App">
         <Header />
-        <div className="App-todo-list">
-          {this.state.toDoList.map((item, i) => (
-            <ToDoItem key={uuidv1()} toDoItem={this.state.toDoList[i]} delete={this.delete} />
-          ))}
-        </div>
         <form onSubmit={this.handleSubmit}>
           <label>
-            <h2>Enter a task:</h2>
-            <input type="text" value={this.state.newToDoItem} onChange={this.handleChange} />
+            <h3>Enter a task:</h3>
+            <input autoFocus type="text" value={this.state.newTask} onChange={this.handleChange} />
           </label>
         </form>
+        <div className="App-todo-list">
+          {this.state.taskList.map(taskObj => (
+            <Task
+              key={taskObj.id}
+              task={taskObj.task}
+              completed={taskObj.completed}
+              id={taskObj.id}
+              deleteTask={this.deleteTask}
+              toggleTask={this.toggleTask}
+            />
+          ))}
+        </div>
       </div>
     );
   }
 }
-
-export default App;

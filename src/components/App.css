@@ -31,17 +31,22 @@
   }
 }
 
-.App-todoitem-text {
+.App-task-text {
   display: inline-block;
+  cursor: pointer;
 }
 
-.App-todoitem-btn {
+.App-task-btn {
   color: lightslategray;
   margin-left: 1em;
   border: none;
   background: none;
 }
 
-.App-todoitem-btn:hover {
+.App-task-btn:hover {
   background-color: lightcoral;
+}
+
+.crossed-out {
+  text-decoration: line-through;
 }
